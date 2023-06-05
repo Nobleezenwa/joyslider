@@ -4,11 +4,11 @@ A lightweight input widget featuring a Joystick and a Circular range slider buil
 
 ![Untitled](https://noblee.000webhostapp.com/joyslider/Untitled.png)
 
-**Demo**
+## Demo
 
 ​		See demo  [here](https://noblee.000webhostapp.com/joyslider/)
 
-**Constructor**
+## Constructor
 
 ​	`container`
 
@@ -54,7 +54,7 @@ A lightweight input widget featuring a Joystick and a Circular range slider buil
 
 ​			Can be true, 'X' and 'Y' or false. Default value is `false`.
 
-**Methods**
+## Methods
 
 ​	`getX`
 
@@ -80,7 +80,7 @@ A lightweight input widget featuring a Joystick and a Circular range slider buil
 
 ​		Remove Joyslider.
 
-**How to use**
+## How to use
 
 Include the Javascript library in your web app.
 
