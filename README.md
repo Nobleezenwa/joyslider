@@ -1,6 +1,6 @@
 # Joyslider
 
-A lightweight input widget featuring a Joystick and a Circular range slider built with Javascript for web applications. This can be used on touch-enabled or mouse-enabled devices. Suitable applications include games, 3D space navigation, remote control, etc.
+A lightweight input widget featuring a Joystick and a Circular range slider built with Javascript for web applications. This can be used on touch-enabled or mouse-enabled devices. Suitable applications include 3D and 2D games, remote control, etc.
 
 ![Untitled](https://noblee.000webhostapp.com/joyslider/Untitled.png)
 
@@ -80,9 +80,23 @@ A lightweight input widget featuring a Joystick and a Circular range slider buil
 
 ​		Remove Joyslider.
 
-**Example**
+**How to use**
+
+Include the Javascript library in your web app.
+
+```html
+<script src="joyslider.js"></script>
+```
+
+Define the HTML element to contain the control.
+
+```html
+<div id="joyslider-container" style="width:200px; height:200px;"></div>
+```
+
+Initialize Joyslider object later once you are ready (either at the end of page or *onDocumentReady*).
 
 ```javascript
-const jysldr = new Joyslider({ container: document.getElementById('my-container') });
+const jysldr = new Joyslider({ container: document.getElementById('joyslider-container') });
 ```
 
