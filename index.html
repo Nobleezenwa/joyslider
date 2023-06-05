@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="user-scalable=no, initial-scale=0.6, maximum-scale=0.6, minimum-scale=0.6, width=device-width" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+		<title>Joyslider</title>
+
+		<script type="text/javascript" src="joyslider.js"></script>
+		<style>
+			.clearfix::after {content:""; clear:both; display:table;}
+			.noselect {-webkit-touch-callout: none; -webkit-user-select: none; -khtml-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none;}
+
+		</style>
+	</head>
+
+	<body class="noselect" style="overflow:hidden; overscroll-behavior:contain;">
+		<div style="position:fixed; top:0; left:0; width:calc(100% - 10px); height:calc(100% - 10px); padding:5px; overflow:auto;">
+			<div class="clearfix">
+				<div id="my-joy-slider" style="float:left; background-color:lime; width:200px; height:200px;"></div>
+				
+				<div style="float:right; background-color:#eee; width:300px; margin:5px;">
+					<h3>Callback:</h3>
+					<textarea id="log" style="background-color:white; border:5px solid #eee; width:280px; height:100px; word-wrap:break-word; resize:none;"></textarea>
+				</div>
+			</div>
+			
+			<br />
+			
+			<div style="display:block; background-color:#eee;">
+				<h3>Methods:</h3>
+					<button onclick="alert(window.jySldr.getX());" style="margin:5px;">getX</button>
+					<button onclick="alert(window.jySldr.getY());" style="margin:5px;">getY</button>
+					<button onclick="setValue('X');" style="margin:5px;">setX</button>
+					<button onclick="setValue('Y');;" style="margin:5px;">setY</button>
+					<button onclick="window.jySldr.reset();" style="margin:5px;">reset</button>
+					<button onclick="window.jySldr.dispose();" style="margin:5px;">dispose</button>
+				<br />
+				<h3>Constructor:</h3>
+				<label for="background">background:</label>
+				<input id="background" type="text" value="white" />
+				<br /><br />
+				<label for="foreground">foreground:</label>
+				<input id="foreground" type="text" value="black" />
+				<br /><br />
+				<label for="valuex">valueX:</label>
+				<input id="valuex" type="number" value="0" style="width:50px;" />
+				<br /><br />
+				<label for="valuey">valueY:</label>
+				[<input id="valuey0" type="number" value="0" style="width:50px;" />,
+				<input id="valuey1" type="number" value="0" style="width:50px;" />]
+				<br /><br />
+				<label for="rangex">rangeX:</label>
+				[<input id="rangex0" type="number" value="0" style="width:50px;" />,
+				<input id="rangex1" type="number" value="360" style="width:50px;" />]
+				<br /><br />
+				<label for="rangey">rangeY:</label>
+				[<input id="rangey0" type="number" value="0" style="width:50px;" />,
+				<input id="rangey1" type="number" value="360" style="width:50px;" />,
+				<input id="rangey2" type="number" value="0" style="width:50px;" />,
+				<input id="rangey3" type="number" value="100" style="width:50px;" />]
+				<br /><br />
+				<label for="autoreturnx">autoReturnX:</label>
+				<select id="autoreturnx">
+					<option value="true">true</option>
+					<option value="false" selected>false</option>
+				</select>
+				<br /><br />
+				<label for="autoreturny">autoReturnY:</label>
+				<select id="autoreturny">
+					<option value="true" selected>true</option>
+					<option value="false">false</option>
+				</select>
+				<br /><br />
+				<label for="disabled">disabled:</label>
+				<select id="disabled">
+					<option value="X">x</option>
+					<option value="Y">y</option>
+					<option value="true">true</option>
+					<option value="false" selected>false</option>
+				</select>
+				<br /><br />
+				<button onclick="loadNew();">Load new</button>
+			</div>
+
+			<script>
+				window.jySldr = null; 
+				
+				function loadNew() {
+					if (window.jySldr != null) { window.jySldr.dispose(); window.jySldr = null;  }
+					
+					log(null);
+				
+					var _background = document.getElementById('background').value,
+						_foreground = document.getElementById('foreground').value,
+						_valuex = parseFloat(document.getElementById('valuex').value),
+						_valuey = [parseFloat(document.getElementById('valuey0').value),parseFloat(document.getElementById('valuey1').value)],
+						_rangex = [parseFloat(document.getElementById('rangex0').value),parseFloat(document.getElementById('rangex1').value)],
+						_rangey = [parseFloat(document.getElementById('rangey0').value),parseFloat(document.getElementById('rangey1').value),parseFloat(document.getElementById('rangey2').value),parseFloat(document.getElementById('rangey3').value)],
+						_autoreturnx = document.getElementById('autoreturnx').value == 'true'? true : false,
+						_autoreturny = document.getElementById('autoreturny').value == 'true'? true : false,
+						_disabled = document.getElementById('disabled').value == 'true'? true : document.getElementById('disabled').value == 'false'? false : document.getElementById('disabled').value;
+					
+					window.jySldr = new Joyslider({
+												container: document.getElementById('my-joy-slider'),
+												background: _background,
+												foreground: _foreground,
+												valueX: _valuex,
+												valueY: _valuey,
+												rangeX: _rangex,
+												rangeY: _rangey,
+												autoReturnX: _autoreturnx,
+												autoReturnY: _autoreturny,
+												callback: log,
+												disabled: _disabled
+											});
+				}
+				
+				function log(ev) {
+					if (ev == null) { document.getElementById('log').innerHTML = 'null'; return; }
+					document.getElementById('log').innerHTML = JSON.stringify({
+						type: ev.type,
+						range: ev.range,
+						value: ev.value
+					});
+				}
+				
+				function setValue(t) {
+					if (t == 'X') {
+						let a = prompt('Enter valueX (angle)', window.jySldr.getX());
+						window.jySldr.setX(parseFloat(a));
+					} else {
+						let a = prompt('Enter valueY (angle)', window.jySldr.getY()[0]);
+						let d = prompt('Enter valueY (distance)', window.jySldr.getY()[1]);
+						window.jySldr.setY(parseFloat(a), parseFloat(d));
+					}
+				}
+				
+				window.onload = loadNew;
+			</script>
+		</div>
+	</body>
+</html>
